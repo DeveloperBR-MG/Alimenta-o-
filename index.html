@@ -1,452 +1,475 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+<title>Analisador da Refeição</title>
 
-  <title>Analisador de Alimentos</title>
+<style>
+* {
+  box-sizing: border-box;
+}
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  color: #202124;
+}
 
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f4f6f8;
-      color: #202124;
-    }
+header {
+  background: white;
+  padding: 25px 20px;
+  border-bottom: 1px solid #ddd;
+}
 
-    header {
-      background: #ffffff;
-      border-bottom: 1px solid #e5e7eb;
-      padding: 25px 20px;
-    }
+.container {
+  max-width: 900px;
+  margin: auto;
+}
 
-    .container {
-      width: 100%;
-      max-width: 900px;
-      margin: auto;
-    }
+main {
+  padding: 25px 15px 60px;
+}
 
-    h1 {
-      margin: 0 0 8px;
-    }
+.card {
+  background: white;
+  padding: 22px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.06);
+}
 
-    .descricao {
-      color: #666;
-      margin: 0;
-    }
+h1, h2 {
+  margin-top: 0;
+}
 
-    main {
-      padding: 25px 20px 60px;
-    }
+.categoria {
+  margin-top: 28px;
+}
 
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 22px;
-      margin-bottom: 20px;
+.categoria h3 {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
 
-      box-shadow:
-        0 4px 18px rgba(0,0,0,0.06);
-    }
+.lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+  gap: 10px;
+}
 
-    .alimentos {
-      display: grid;
-      grid-template-columns:
-        repeat(auto-fit, minmax(180px, 1fr));
-      gap: 12px;
-      margin-top: 20px;
-    }
+.alimento {
+  border: 2px solid #e5e7eb;
+  padding: 13px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  gap: 9px;
+  align-items: center;
+}
 
-    .alimento {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+.alimento:hover {
+  border-color: #2563eb;
+}
 
-      padding: 15px;
+.alimento.selecionado {
+  background: #eff6ff;
+  border-color: #2563eb;
+}
 
-      border: 2px solid #e5e7eb;
-      border-radius: 12px;
+.alimento input {
+  width: 18px;
+  height: 18px;
+}
 
-      cursor: pointer;
-      transition: 0.2s;
+button {
+  width: 100%;
+  padding: 16px;
+  border: 0;
+  border-radius: 12px;
+  background: #2563eb;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 25px;
+}
 
-      user-select: none;
-    }
+#resultado {
+  display: none;
+}
 
-    .alimento:hover {
-      border-color: #3b82f6;
-      background: #f8fbff;
-    }
+.nivel {
+  padding: 20px;
+  border-radius: 14px;
+  text-align: center;
+  margin: 20px 0;
+}
 
-    .alimento.selecionado {
-      border-color: #2563eb;
-      background: #eff6ff;
-    }
+.baixo {
+  background: #dcfce7;
+}
 
-    .alimento input {
-      width: 18px;
-      height: 18px;
-    }
+.moderado {
+  background: #fef9c3;
+}
 
-    button {
-      width: 100%;
-      margin-top: 22px;
+.elevado {
+  background: #ffedd5;
+}
 
-      border: none;
-      border-radius: 12px;
+.muito-elevado {
+  background: #fee2e2;
+}
 
-      padding: 16px;
+.pontuacao {
+  font-size: 35px;
+  font-weight: bold;
+}
 
-      font-size: 17px;
-      font-weight: bold;
+.item-resultado {
+  padding: 13px 0;
+  border-bottom: 1px solid #eee;
+}
 
-      cursor: pointer;
+.alerta {
+  background: #fff7ed;
+  border-left: 5px solid #f97316;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 12px;
+}
 
-      background: #2563eb;
-      color: white;
+.aviso {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.5;
+  margin-top: 25px;
+}
 
-      transition: 0.2s;
-    }
-
-    button:hover {
-      background: #1d4ed8;
-    }
-
-    #resultado {
-      display: none;
-    }
-
-    .resultado-item {
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 12px;
-    }
-
-    .alto {
-      background: #fee2e2;
-      border-left: 5px solid #dc2626;
-    }
-
-    .medio {
-      background: #fef3c7;
-      border-left: 5px solid #f59e0b;
-    }
-
-    .baixo {
-      background: #dcfce7;
-      border-left: 5px solid #16a34a;
-    }
-
-    .resultado-item h3 {
-      margin-top: 0;
-      margin-bottom: 8px;
-    }
-
-    .risco {
-      display: inline-block;
-
-      font-size: 12px;
-      font-weight: bold;
-
-      text-transform: uppercase;
-
-      margin-bottom: 8px;
-    }
-
-    .aviso {
-      font-size: 13px;
-      color: #666;
-      margin-top: 20px;
-      line-height: 1.5;
-    }
-
-    .contador {
-      margin-top: 15px;
-      font-size: 14px;
-      color: #555;
-    }
-
-  </style>
+#contador {
+  margin-top: 20px;
+  color: #666;
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <div class="container">
-
-    <h1>🍽️ Analisador de Alimentos</h1>
-
-    <p class="descricao">
-      Marque os alimentos que você consumiu.
-    </p>
-
-  </div>
+<div class="container">
+  <h1>🍽️ Analisador da Refeição</h1>
+  <p>Selecione tudo que você consumiu.</p>
+</div>
 </header>
 
-
 <main>
+<div class="container">
 
-  <div class="container">
+<section class="card">
 
-    <section class="card">
+<h2>Minha refeição</h2>
 
-      <h2>O que você consumiu?</h2>
+<div id="categorias"></div>
 
-      <p>
-        Selecione um ou mais alimentos:
-      </p>
+<div id="contador">
+  Nenhum alimento selecionado
+</div>
 
+<button onclick="analisar()">
+  Analisar refeição
+</button>
 
-      <div
-        id="listaAlimentos"
-        class="alimentos">
-      </div>
-
-
-      <div
-        id="contador"
-        class="contador">
-        0 alimentos selecionados
-      </div>
+</section>
 
 
-      <button onclick="analisar()">
-        Analisar alimentos
-      </button>
+<section id="resultado" class="card">
 
-    </section>
+<h2>Resultado da análise</h2>
 
+<div id="nivel"></div>
 
+<div id="alertas"></div>
 
-    <section
-      id="resultado"
-      class="card">
+<h3>Alimentos selecionados</h3>
 
-      <h2>Resultado</h2>
+<div id="detalhes"></div>
 
-      <div id="listaResultados"></div>
+<p class="aviso">
+⚠️ Esta ferramenta é apenas informativa. A pontuação representa
+um potencial de provocar ou piorar sintomas digestivos e não mede
+a intensidade real de uma gastrite. A tolerância aos alimentos varia
+entre as pessoas. Gastrite pode ter outras causas, como infecção por
+H. pylori e uso de determinados medicamentos.
+</p>
 
-      <p class="aviso">
+</section>
 
-        ⚠️ Este sistema possui caráter informativo.
-
-        Alimentos normalmente não são a causa isolada
-        da gastrite, mas alguns podem irritar o estômago
-        ou piorar sintomas.
-
-        Gastrite também pode estar relacionada a fatores
-        como H. pylori, medicamentos anti-inflamatórios
-        e consumo de álcool.
-
-      </p>
-
-    </section>
-
-  </div>
-
+</div>
 </main>
-
 
 <script src="alimentos.js"></script>
 
-
 <script>
 
-  const lista =
-    document.getElementById("listaAlimentos");
+const area = document.getElementById("categorias");
 
-  const contador =
-    document.getElementById("contador");
+function carregar() {
 
+  const categorias = {};
 
+  alimentos.forEach((a, index) => {
 
-  function carregarAlimentos() {
+    if (!categorias[a.categoria])
+      categorias[a.categoria] = [];
 
-    alimentos.forEach((alimento, index) => {
+    categorias[a.categoria].push({
+      ...a,
+      index
+    });
 
-      const label =
-        document.createElement("label");
+  });
 
+  Object.keys(categorias).forEach(nome => {
+
+    const bloco = document.createElement("div");
+    bloco.className = "categoria";
+
+    bloco.innerHTML = `<h3>${nome}</h3>`;
+
+    const lista = document.createElement("div");
+    lista.className = "lista";
+
+    categorias[nome].forEach(a => {
+
+      const label = document.createElement("label");
       label.className = "alimento";
 
-
       label.innerHTML = `
-
         <input
           type="checkbox"
-          value="${index}"
-          onchange="atualizarSelecao(this)"
+          value="${a.index}"
+          onchange="alterar(this)"
         >
-
-        <span>
-          ${alimento.nome}
-        </span>
-
+        ${a.nome}
       `;
-
 
       lista.appendChild(label);
 
     });
 
+    bloco.appendChild(lista);
+    area.appendChild(bloco);
+  });
+}
+
+function alterar(input) {
+
+  input.parentElement.classList.toggle(
+    "selecionado",
+    input.checked
+  );
+
+  const quantidade =
+    document.querySelectorAll(
+      ".alimento input:checked"
+    ).length;
+
+  document.getElementById("contador").innerText =
+    quantidade === 0
+      ? "Nenhum alimento selecionado"
+      : quantidade === 1
+      ? "1 alimento selecionado"
+      : quantidade + " alimentos selecionados";
+}
+
+
+function analisar() {
+
+  const checks =
+    document.querySelectorAll(
+      ".alimento input:checked"
+    );
+
+  if (!checks.length) {
+    alert("Selecione pelo menos um alimento.");
+    return;
+  }
+
+  const selecionados =
+    [...checks].map(
+      c => alimentos[Number(c.value)]
+    );
+
+  let pontos =
+    selecionados.reduce(
+      (total, a) => total + a.pontos,
+      0
+    );
+
+  let nivel;
+  let classe;
+
+  if (pontos <= 3) {
+    nivel = "Baixo";
+    classe = "baixo";
+
+  } else if (pontos <= 6) {
+    nivel = "Moderado";
+    classe = "moderado";
+
+  } else if (pontos <= 10) {
+    nivel = "Elevado";
+    classe = "elevado";
+
+  } else {
+    nivel = "Muito elevado";
+    classe = "muito-elevado";
   }
 
 
+  document.getElementById("nivel").innerHTML = `
+    <div class="nivel ${classe}">
 
-  function atualizarSelecao(checkbox) {
+      <div class="pontuacao">
+        ${pontos}
+      </div>
 
-    const label = checkbox.closest(".alimento");
+      <strong>
+        Potencial ${nivel}
+      </strong>
 
+      <p>
+        de provocar ou agravar sintomas digestivos
+        em pessoas sensíveis.
+      </p>
 
-    if (checkbox.checked) {
+    </div>
+  `;
 
-      label.classList.add("selecionado");
 
-    } else {
+  gerarAlertas(selecionados);
 
-      label.classList.remove("selecionado");
 
-    }
+  const detalhes =
+    document.getElementById("detalhes");
 
+  detalhes.innerHTML = "";
 
-    atualizarContador();
+  selecionados.forEach(a => {
 
-  }
+    detalhes.innerHTML += `
+      <div class="item-resultado">
 
+        <strong>${a.nome}</strong>
 
+        <br>
 
-  function atualizarContador() {
+        ${a.motivo}
 
-    const selecionados =
-      document.querySelectorAll(
-        '.alimento input:checked'
-      ).length;
+        <br>
 
+        <small>
+          Pontuação: ${a.pontos}
+        </small>
 
-    contador.innerText =
+      </div>
+    `;
+  });
 
-      selecionados === 1
 
-        ? "1 alimento selecionado"
+  document.getElementById("resultado")
+    .style.display = "block";
 
-        : `${selecionados} alimentos selecionados`;
 
-  }
-
-
-
-  function analisar() {
-
-    const selecionados =
-      document.querySelectorAll(
-        '.alimento input:checked'
-      );
-
-
-    const areaResultado =
-      document.getElementById("resultado");
-
-
-    const listaResultados =
-      document.getElementById("listaResultados");
-
-
-    listaResultados.innerHTML = "";
-
-
-    if (selecionados.length === 0) {
-
-      alert(
-        "Selecione pelo menos um alimento."
-      );
-
-      return;
-
-    }
-
-
-
-    selecionados.forEach(item => {
-
-      const alimento =
-        alimentos[item.value];
-
-
-      const div =
-        document.createElement("div");
-
-
-      div.className =
-        `resultado-item ${alimento.risco}`;
-
-
-      let textoRisco = "";
-
-
-      if (alimento.risco === "alto") {
-
-        textoRisco = "Maior chance de irritação";
-
-      } else if (alimento.risco === "medio") {
-
-        textoRisco = "Pode causar sintomas";
-
-      } else {
-
-        textoRisco = "Menor risco";
-
-      }
-
-
-      div.innerHTML = `
-
-        <h3>
-          ${alimento.nome}
-        </h3>
-
-        <div class="risco">
-          ${textoRisco}
-        </div>
-
-        <p>
-          ${alimento.mensagem}
-        </p>
-
-      `;
-
-
-      listaResultados.appendChild(div);
-
-    });
-
-
-
-    areaResultado.style.display =
-      "block";
-
-
-    areaResultado.scrollIntoView({
-
+  document.getElementById("resultado")
+    .scrollIntoView({
       behavior: "smooth"
-
     });
+}
 
+
+function gerarAlertas(lista) {
+
+  const alertas =
+    document.getElementById("alertas");
+
+  alertas.innerHTML = "";
+
+  const categorias =
+    lista.map(a => a.categoria);
+
+
+  const embutidos =
+    lista.filter(
+      a => a.categoria === "Embutidos"
+    );
+
+
+  if (embutidos.length >= 2) {
+
+    criarAlerta(
+      "🥓 Vários embutidos",
+      `Você selecionou ${embutidos.length} embutidos/processados na mesma refeição.`
+    );
   }
 
 
+  if (
+    categorias.includes("Embutidos") &&
+    categorias.includes("Gordurosos")
+  ) {
 
-  carregarAlimentos();
+    criarAlerta(
+      "🍔 Refeição bastante gordurosa",
+      "Foram selecionados embutidos juntamente com outros alimentos gordurosos."
+    );
+  }
+
+
+  if (
+    categorias.includes("Gordurosos") &&
+    categorias.includes("Bebidas")
+  ) {
+
+    criarAlerta(
+      "🥤 Atenção à combinação",
+      "Alimentos gordurosos combinados com certas bebidas podem favorecer desconforto ou refluxo em algumas pessoas."
+    );
+  }
+
+
+  if (
+    categorias.includes("Temperos") &&
+    categorias.includes("Ácidos")
+  ) {
+
+    criarAlerta(
+      "🌶️ Picante + ácido",
+      "Você combinou alimentos picantes e ácidos, que podem aumentar sintomas em algumas pessoas sensíveis."
+    );
+  }
+}
+
+
+function criarAlerta(titulo, texto) {
+
+  document.getElementById("alertas")
+    .innerHTML += `
+      <div class="alerta">
+        <strong>${titulo}</strong>
+        <br>
+        ${texto}
+      </div>
+    `;
+}
+
+
+carregar();
 
 </script>
-
 
 </body>
 </html>
