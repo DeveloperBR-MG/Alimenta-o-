@@ -303,11 +303,22 @@ function analisar() {
       c => alimentos[Number(c.value)]
     );
 
-  let pontos =
-    selecionados.reduce(
-      (total, a) => total + a.pontos,
-      0
+  let pontos = selecionados.reduce((total, alimento) => {
+
+  const valor = Number(alimento.pontos);
+
+  if (Number.isNaN(valor)) {
+    console.warn(
+      "Alimento sem pontuação:",
+      alimento.nome
     );
+
+    return total;
+  }
+
+  return total + valor;
+
+}, 0);
 
   let nivel;
   let classe;
@@ -367,7 +378,7 @@ function analisar() {
 
         <br>
 
-        ${a.motivo}
+${a.motivo || "Informação não cadastrada."}
 
         <br>
 
