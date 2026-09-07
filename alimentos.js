@@ -68,5 +68,47 @@ const alimentos = [
     nome: "Leite integral",
     risco: "medio",
     mensagem: "O teor de gordura pode causar desconforto em algumas pessoas."
-  }
+  },
+  {
+  nome: "Salsichão",
+  categoria: "Embutidos",
+  risco: "alto",
+  mensagem: "Por ser uma carne processada, geralmente rica em gordura, sal e temperos, pode piorar queimação, refluxo e desconforto gástrico em algumas pessoas."
+},
+{
+  nome: "Mortadela",
+  categoria: "Embutidos",
+  risco: "alto",
+  mensagem: "Pode conter bastante gordura, sódio e condimentos, que podem agravar sintomas gástricos em pessoas sensíveis."
+},
+{
+  nome: "Salame",
+  categoria: "Embutidos",
+  risco: "alto",
+  mensagem: "É um alimento processado, gorduroso e condimentado, podendo piorar queimação, refluxo e desconforto."
+},
+{
+  nome: "Linguiça",
+  categoria: "Embutidos",
+  risco: "alto",
+  mensagem: "A combinação de gordura, sal e temperos pode piorar sintomas de gastrite ou refluxo."
+},
+{
+  nome: "Salsicha",
+  categoria: "Embutidos",
+  risco: "alto",
+  mensagem: "É uma carne processada que pode ser rica em gordura, sódio e condimentos, podendo causar desconforto em algumas pessoas."
+},
+{
+  nome: "Presunto",
+  categoria: "Embutidos",
+  risco: "medio",
+  mensagem: "Por ser processado e geralmente rico em sódio, pode causar desconforto em algumas pessoas."
+},
+{
+  nome: "Bacon",
+  categoria: "Embutidos",
+  risco: "alto",
+  mensagem: "O alto teor de gordura pode favorecer refluxo, sensação de estômago pesado e outros sintomas."
+}
 ];
