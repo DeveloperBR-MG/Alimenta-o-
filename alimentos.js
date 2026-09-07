@@ -1,114 +1,42 @@
 const alimentos = [
-  {
-    nome: "Café",
-    risco: "alto",
-    mensagem: "Pode aumentar a acidez do estômago e piorar queimação, dor e refluxo."
-  },
-  {
-    nome: "Refrigerante",
-    risco: "alto",
-    mensagem: "O gás, a acidez e, em alguns casos, a cafeína podem irritar o estômago."
-  },
-  {
-    nome: "Chocolate",
-    risco: "medio",
-    mensagem: "Pode favorecer refluxo e desconforto em algumas pessoas."
-  },
-  {
-    nome: "Pimenta",
-    risco: "alto",
-    mensagem: "Alimentos muito picantes podem aumentar a irritação e a sensação de queimação."
-  },
-  {
-    nome: "Frituras",
-    risco: "alto",
-    mensagem: "Alimentos muito gordurosos demoram mais para serem digeridos e podem piorar os sintomas."
-  },
-  {
-    nome: "Álcool",
-    risco: "alto",
-    mensagem: "Pode irritar diretamente a mucosa do estômago e piorar a inflamação."
-  },
-  {
-    nome: "Molho de tomate",
-    risco: "medio",
-    mensagem: "Por ser ácido, pode piorar queimação e refluxo em algumas pessoas."
-  },
-  {
-    nome: "Limão",
-    risco: "medio",
-    mensagem: "Frutas muito ácidas podem causar desconforto em pessoas sensíveis."
-  },
-  {
-    nome: "Laranja",
-    risco: "medio",
-    mensagem: "A acidez pode aumentar sintomas como azia e queimação em algumas pessoas."
-  },
-  {
-    nome: "Energético",
-    risco: "alto",
-    mensagem: "Normalmente contém cafeína e outros estimulantes que podem aumentar a irritação gástrica."
-  },
-  {
-    nome: "Salgadinho industrializado",
-    risco: "medio",
-    mensagem: "Pode possuir muita gordura, sal e temperos que pioram o desconforto."
-  },
-  {
-    nome: "Hambúrguer",
-    risco: "alto",
-    mensagem: "O alto teor de gordura pode aumentar desconforto, sensação de estômago pesado e refluxo."
-  },
-  {
-    nome: "Pizza",
-    risco: "medio",
-    mensagem: "Pode combinar gordura, queijo e molho de tomate, ingredientes que podem piorar os sintomas."
-  },
-  {
-    nome: "Leite integral",
-    risco: "medio",
-    mensagem: "O teor de gordura pode causar desconforto em algumas pessoas."
-  },
-  {
-  nome: "Salsichão",
-  categoria: "Embutidos",
-  risco: "alto",
-  mensagem: "Por ser uma carne processada, geralmente rica em gordura, sal e temperos, pode piorar queimação, refluxo e desconforto gástrico em algumas pessoas."
-},
-{
-  nome: "Mortadela",
-  categoria: "Embutidos",
-  risco: "alto",
-  mensagem: "Pode conter bastante gordura, sódio e condimentos, que podem agravar sintomas gástricos em pessoas sensíveis."
-},
-{
-  nome: "Salame",
-  categoria: "Embutidos",
-  risco: "alto",
-  mensagem: "É um alimento processado, gorduroso e condimentado, podendo piorar queimação, refluxo e desconforto."
-},
-{
-  nome: "Linguiça",
-  categoria: "Embutidos",
-  risco: "alto",
-  mensagem: "A combinação de gordura, sal e temperos pode piorar sintomas de gastrite ou refluxo."
-},
-{
-  nome: "Salsicha",
-  categoria: "Embutidos",
-  risco: "alto",
-  mensagem: "É uma carne processada que pode ser rica em gordura, sódio e condimentos, podendo causar desconforto em algumas pessoas."
-},
-{
-  nome: "Presunto",
-  categoria: "Embutidos",
-  risco: "medio",
-  mensagem: "Por ser processado e geralmente rico em sódio, pode causar desconforto em algumas pessoas."
-},
-{
-  nome: "Bacon",
-  categoria: "Embutidos",
-  risco: "alto",
-  mensagem: "O alto teor de gordura pode favorecer refluxo, sensação de estômago pesado e outros sintomas."
-}
+  // EMBUTIDOS / PROCESSADOS
+  { nome: "Salsichão", categoria: "Embutidos", pontos: 3, motivo: "Rico em gordura, sódio e condimentos." },
+  { nome: "Mortadela", categoria: "Embutidos", pontos: 3, motivo: "Carne processada, geralmente rica em gordura e sódio." },
+  { nome: "Salame", categoria: "Embutidos", pontos: 3, motivo: "Processado, gorduroso e condimentado." },
+  { nome: "Linguiça", categoria: "Embutidos", pontos: 3, motivo: "Pode conter bastante gordura, sal e temperos." },
+  { nome: "Salsicha", categoria: "Embutidos", pontos: 3, motivo: "Alimento processado, com gordura, sódio e condimentos." },
+  { nome: "Bacon", categoria: "Embutidos", pontos: 3, motivo: "Muito gorduroso e pode favorecer refluxo e desconforto." },
+  { nome: "Presunto", categoria: "Embutidos", pontos: 2, motivo: "Processado e geralmente rico em sódio." },
+
+  // BEBIDAS
+  { nome: "Café", categoria: "Bebidas", pontos: 3, motivo: "A cafeína pode aumentar sintomas de queimação ou refluxo em algumas pessoas." },
+  { nome: "Refrigerante", categoria: "Bebidas", pontos: 3, motivo: "Gás, acidez e eventualmente cafeína podem piorar sintomas." },
+  { nome: "Energético", categoria: "Bebidas", pontos: 3, motivo: "Pode conter bastante cafeína e outros estimulantes." },
+  { nome: "Álcool", categoria: "Bebidas", pontos: 3, motivo: "Pode irritar a mucosa gástrica." },
+
+  // GORDUROSOS
+  { nome: "Fritura", categoria: "Gordurosos", pontos: 3, motivo: "A grande quantidade de gordura pode retardar o esvaziamento do estômago e favorecer refluxo." },
+  { nome: "Hambúrguer", categoria: "Gordurosos", pontos: 3, motivo: "Pode possuir grande quantidade de gordura." },
+  { nome: "Pizza", categoria: "Gordurosos", pontos: 2, motivo: "Pode combinar gordura, queijo, embutidos e molho de tomate." },
+  { nome: "Batata frita", categoria: "Gordurosos", pontos: 3, motivo: "A fritura e a gordura podem piorar desconfortos digestivos." },
+
+  // PICANTES / TEMPEROS
+  { nome: "Pimenta", categoria: "Temperos", pontos: 3, motivo: "Alimentos picantes podem intensificar queimação em algumas pessoas." },
+  { nome: "Molho apimentado", categoria: "Temperos", pontos: 3, motivo: "Pode aumentar a sensação de ardência e desconforto." },
+
+  // ÁCIDOS
+  { nome: "Molho de tomate", categoria: "Ácidos", pontos: 2, motivo: "A acidez pode piorar queimação ou refluxo em algumas pessoas." },
+  { nome: "Limão", categoria: "Ácidos", pontos: 2, motivo: "Pode provocar sintomas em algumas pessoas sensíveis." },
+  { nome: "Laranja", categoria: "Ácidos", pontos: 2, motivo: "Frutas cítricas podem piorar sintomas em algumas pessoas." },
+
+  // DOCES
+  { nome: "Chocolate", categoria: "Doces", pontos: 2, motivo: "Pode favorecer refluxo em algumas pessoas." },
+
+  // LATICÍNIOS
+  { nome: "Leite integral", categoria: "Laticínios", pontos: 2, motivo: "O teor de gordura pode causar desconforto em algumas pessoas." },
+  { nome: "Queijo gorduroso", categoria: "Laticínios", pontos: 2, motivo: "A gordura pode favorecer sensação de estômago pesado ou refluxo." },
+
+  // INDUSTRIALIZADOS
+  { nome: "Salgadinho", categoria: "Industrializados", pontos: 3, motivo: "Pode combinar gordura, sal e temperos." },
+  { nome: "Macarrão instantâneo", categoria: "Industrializados", pontos: 2, motivo: "Pode conter bastante sódio, gordura e temperos." }
 ];
