@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Analisador de Alimentos</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f6f8;
+      color: #202124;
+    }
+
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 25px 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+    }
+
+    .descricao {
+      color: #666;
+      margin: 0;
+    }
+
+    main {
+      padding: 25px 20px 60px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 20px;
+
+      box-shadow:
+        0 4px 18px rgba(0,0,0,0.06);
+    }
+
+    .alimentos {
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .alimento {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      padding: 15px;
+
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+
+      cursor: pointer;
+      transition: 0.2s;
+
+      user-select: none;
+    }
+
+    .alimento:hover {
+      border-color: #3b82f6;
+      background: #f8fbff;
+    }
+
+    .alimento.selecionado {
+      border-color: #2563eb;
+      background: #eff6ff;
+    }
+
+    .alimento input {
+      width: 18px;
+      height: 18px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 22px;
+
+      border: none;
+      border-radius: 12px;
+
+      padding: 16px;
+
+      font-size: 17px;
+      font-weight: bold;
+
+      cursor: pointer;
+
+      background: #2563eb;
+      color: white;
+
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    #resultado {
+      display: none;
+    }
+
+    .resultado-item {
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .alto {
+      background: #fee2e2;
+      border-left: 5px solid #dc2626;
+    }
+
+    .medio {
+      background: #fef3c7;
+      border-left: 5px solid #f59e0b;
+    }
+
+    .baixo {
+      background: #dcfce7;
+      border-left: 5px solid #16a34a;
+    }
+
+    .resultado-item h3 {
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+    .risco {
+      display: inline-block;
+
+      font-size: 12px;
+      font-weight: bold;
+
+      text-transform: uppercase;
+
+      margin-bottom: 8px;
+    }
+
+    .aviso {
+      font-size: 13px;
+      color: #666;
+      margin-top: 20px;
+      line-height: 1.5;
+    }
+
+    .contador {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #555;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+
+    <h1>🍽️ Analisador de Alimentos</h1>
+
+    <p class="descricao">
+      Marque os alimentos que você consumiu.
+    </p>
+
+  </div>
+</header>
+
+
+<main>
+
+  <div class="container">
+
+    <section class="card">
+
+      <h2>O que você consumiu?</h2>
+
+      <p>
+        Selecione um ou mais alimentos:
+      </p>
+
+
+      <div
+        id="listaAlimentos"
+        class="alimentos">
+      </div>
+
+
+      <div
+        id="contador"
+        class="contador">
+        0 alimentos selecionados
+      </div>
+
+
+      <button onclick="analisar()">
+        Analisar alimentos
+      </button>
+
+    </section>
+
+
+
+    <section
+      id="resultado"
+      class="card">
+
+      <h2>Resultado</h2>
+
+      <div id="listaResultados"></div>
+
+      <p class="aviso">
+
+        ⚠️ Este sistema possui caráter informativo.
+
+        Alimentos normalmente não são a causa isolada
+        da gastrite, mas alguns podem irritar o estômago
+        ou piorar sintomas.
+
+        Gastrite também pode estar relacionada a fatores
+        como H. pylori, medicamentos anti-inflamatórios
+        e consumo de álcool.
+
+      </p>
+
+    </section>
+
+  </div>
+
+</main>
+
+
+<script src="alimentos.js"></script>
+
+
+<script>
+
+  const lista =
+    document.getElementById("listaAlimentos");
+
+  const contador =
+    document.getElementById("contador");
+
+
+
+  function carregarAlimentos() {
+
+    alimentos.forEach((alimento, index) => {
+
+      const label =
+        document.createElement("label");
+
+      label.className = "alimento";
+
+
+      label.innerHTML = `
+
+        <input
+          type="checkbox"
+          value="${index}"
+          onchange="atualizarSelecao(this)"
+        >
+
+        <span>
+          ${alimento.nome}
+        </span>
+
+      `;
+
+
+      lista.appendChild(label);
+
+    });
+
+  }
+
+
+
+  function atualizarSelecao(checkbox) {
+
+    const label = checkbox.closest(".alimento");
+
+
+    if (checkbox.checked) {
+
+      label.classList.add("selecionado");
+
+    } else {
+
+      label.classList.remove("selecionado");
+
+    }
+
+
+    atualizarContador();
+
+  }
+
+
+
+  function atualizarContador() {
+
+    const selecionados =
+      document.querySelectorAll(
+        '.alimento input:checked'
+      ).length;
+
+
+    contador.innerText =
+
+      selecionados === 1
+
+        ? "1 alimento selecionado"
+
+        : `${selecionados} alimentos selecionados`;
+
+  }
+
+
+
+  function analisar() {
+
+    const selecionados =
+      document.querySelectorAll(
+        '.alimento input:checked'
+      );
+
+
+    const areaResultado =
+      document.getElementById("resultado");
+
+
+    const listaResultados =
+      document.getElementById("listaResultados");
+
+
+    listaResultados.innerHTML = "";
+
+
+    if (selecionados.length === 0) {
+
+      alert(
+        "Selecione pelo menos um alimento."
+      );
+
+      return;
+
+    }
+
+
+
+    selecionados.forEach(item => {
+
+      const alimento =
+        alimentos[item.value];
+
+
+      const div =
+        document.createElement("div");
+
+
+      div.className =
+        `resultado-item ${alimento.risco}`;
+
+
+      let textoRisco = "";
+
+
+      if (alimento.risco === "alto") {
+
+        textoRisco = "Maior chance de irritação";
+
+      } else if (alimento.risco === "medio") {
+
+        textoRisco = "Pode causar sintomas";
+
+      } else {
+
+        textoRisco = "Menor risco";
+
+      }
+
+
+      div.innerHTML = `
+
+        <h3>
+          ${alimento.nome}
+        </h3>
+
+        <div class="risco">
+          ${textoRisco}
+        </div>
+
+        <p>
+          ${alimento.mensagem}
+        </p>
+
+      `;
+
+
+      listaResultados.appendChild(div);
+
+    });
+
+
+
+    areaResultado.style.display =
+      "block";
+
+
+    areaResultado.scrollIntoView({
+
+      behavior: "smooth"
+
+    });
+
+  }
+
+
+
+  carregarAlimentos();
+
+</script>
+
+
+</body>
+</html>
